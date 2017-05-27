@@ -1,0 +1,18 @@
+body{
+    font-family: monospace;
+    text-align: center;
+    background-color: blanchedalmond;
+    color: forestgreen
+}
+.chatty{
+    font-size: 50px;
+}
+.catty{
+    font-size:100px;
+}
+.chatuser{
+    font-family: fantasy;
+}
+hr.style {
+	border-top: 3px double forestgreen;
+}

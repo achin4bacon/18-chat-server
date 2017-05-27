@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--JQuERY ! THAT FUNKY QUERY!-->
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./styles/styles.css">
+    <script src='./scripts/utility.js'></script>
+<script src="./scripts/gripes-widget.js"></script>
+    <link rel="stylesheet" href="./styles/gripes-widget.css" />
+    <script src="./scripts/app.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+
+    <title>Chatty Catties (Mee-YOW!)</title>
+</head>
+<body>
+    <!-- Div to display login/registration input (error)fields/buttons -->
+    <jumbotron><marquee><span class='catty'>Chatty Catties</span></marquee></jumbotron>
+   
+    <jumbotron><img src='https://s-media-cache-ak0.pinimg.com/736x/21/e2/a2/21e2a27d3a4af1298ba90e1729e01a96.jpg' width='75%'></jumbotron>
+    <br><br> Welcome to Chatty Catties!
+    <br><br> If you have been here before, please log in with your username and password. 
+    <br>If this is your first time, please enter a username and password and click "Register" to sign up. <br><br>
+    <marquee direction="down" width="100%" height="200" behavior="alternate"><marquee behavior="alternate"><div class='chatty'>Let's get Meowing!</div></marquee></marquee>
+    <div class="row login-input center">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div id="login-error"></div>
+            Username: <input type="text" id="username" placeholder="username"><br>
+            Password: <input type="password" id="password" placeholder="password" style="margin-bottom: 10px">
+            <br>
+            <button class="btn btn-primary" id="login">Login</button>
+            <button class="btn btn-info" id="register">Register</button>
+        </div>
+    </div>
+
+    <script>
+        // Click listener for login submission, complete with error handler and page redirection
+        $('#login').click(function() {
+            $.post('/api/login', {
+                username: $('#username').val(),
+                password: $('#password').val()
+            }, function(res) {
+                if (res === "error") {
+                    $('#login-error').text('Error: Username or password incorrect or you need to register first');
+                } else {
+                    $('#username').val('');
+                    $("#password").val('');
+                    window.location.href = "chat.html";
+                } 
+            });
+        });
+
+        // Click listener for registration submission, complete with error handler and further directions
+         $('#register').click(function() {
+            $.post('/api/register', {
+                username: $('#username').val(),
+                password: $('#password').val()
+            }, function(res) {
+                if (res === "exists") {
+                    $('#login-error').text('Error: the username ' + $('#username').val() + ' already exist.');
+                } else {
+                    $('#login-error').text('Registered! Try logging in...');
+                } 
+            });
+        });
+
+    </script>
+</body>
+</html>
